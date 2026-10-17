@@ -274,54 +274,54 @@ Respond ONLY with JSON in this exact shape: {"results": [{"score": 0 or 1, "feed
   return parsed.results;
 }
 
-async function textToSpeechOpus(script) {
-  const speech = await openai.audio.speech.create({
-    model: "tts-1",
-    voice: "alloy",
-    input: script,
-    response_format: "opus",
-  });
-  const arrayBuffer = await speech.arrayBuffer();
-  return Buffer.from(arrayBuffer);
-}
+// async function textToSpeechOpus(script) {
+//   const speech = await openai.audio.speech.create({
+//     model: "tts-1",
+//     voice: "alloy",
+//     input: script,
+//     response_format: "opus",
+//   });
+//   const arrayBuffer = await speech.arrayBuffer();
+//   return Buffer.from(arrayBuffer);
+// }
 
-async function uploadMediaToWhatsApp(buffer, mimeType, filename) {
-  const form = new FormData();
-  form.append("messaging_product", "whatsapp");
-  form.append("type", mimeType);
-  form.append("file", new Blob([buffer], { type: mimeType }), filename);
+// async function uploadMediaToWhatsApp(buffer, mimeType, filename) {
+//   const form = new FormData();
+//   form.append("messaging_product", "whatsapp");
+//   form.append("type", mimeType);
+//   form.append("file", new Blob([buffer], { type: mimeType }), filename);
 
-  const res = await fetch(`${GRAPH_API}/${PHONE_NUMBER_ID}/media`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${ACCESS_TOKEN}` },
-    body: form,
-  });
-  const data = await res.json();
-  if (!data.id) {
-    throw new Error(`WhatsApp media upload failed: ${JSON.stringify(data)}`);
-  }
-  return data.id;
-}
+//   const res = await fetch(`${GRAPH_API}/${PHONE_NUMBER_ID}/media`, {
+//     method: "POST",
+//     headers: { Authorization: `Bearer ${ACCESS_TOKEN}` },
+//     body: form,
+//   });
+//   const data = await res.json();
+//   if (!data.id) {
+//     throw new Error(`WhatsApp media upload failed: ${JSON.stringify(data)}`);
+//   }
+//   return data.id;
+// }
 
-async function sendWhatsAppAudio(to, mediaId) {
-  const res = await fetch(`${GRAPH_API}/${PHONE_NUMBER_ID}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      messaging_product: "whatsapp",
-      to,
-      type: "audio",
-      audio: { id: mediaId },
-    }),
-  });
-  const data = await res.json();
-  if (data.error) {
-    throw new Error(`WhatsApp audio send failed: ${JSON.stringify(data.error)}`);
-  }
-}
+// async function sendWhatsAppAudio(to, mediaId) {
+//   const res = await fetch(`${GRAPH_API}/${PHONE_NUMBER_ID}/messages`, {
+//     method: "POST",
+//     headers: {
+//       Authorization: `Bearer ${ACCESS_TOKEN}`,
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       messaging_product: "whatsapp",
+//       to,
+//       type: "audio",
+//       audio: { id: mediaId },
+//     }),
+//   });
+//   const data = await res.json();
+//   if (data.error) {
+//     throw new Error(`WhatsApp audio send failed: ${JSON.stringify(data.error)}`);
+//   }
+// }
 
 async function sendWhatsAppText(to, text) {
   const res = await fetch(`${GRAPH_API}/${PHONE_NUMBER_ID}/messages`, {
@@ -371,9 +371,9 @@ async function startTrainingSession(user) {
 
   const { script, questions } = await buildTrainingContent(topic, personalizedBrief);
 
-  const audioBuffer = await textToSpeechOpus(script);
-  const mediaId = await uploadMediaToWhatsApp(audioBuffer, "audio/ogg", "training.ogg");
-  await sendWhatsAppAudio(number, mediaId);
+  // const audioBuffer = await textToSpeechOpus(script);
+  // const mediaId = await uploadMediaToWhatsApp(audioBuffer, "audio/ogg", "training.ogg");
+  // await sendWhatsAppAudio(number, mediaId);
 
   await sendWhatsAppText(
     number,

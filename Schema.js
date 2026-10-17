@@ -85,7 +85,7 @@ const chatSchema = new mongoose.Schema({
   profession: { type: String },
   location: { type: String },
   status: { type: String, default: "Cold" },
-  pipeline: { type: String, default: "New" },
+  pipeline: { type: String, default: "New Lead" },
   remarks: [remarksSchema],
   reminder: { type: Date, default: null },
   batchId: { type: String, default: null },

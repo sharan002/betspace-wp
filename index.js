@@ -250,11 +250,11 @@ async function gatherCourseRagContext(userQuery, course, topK = 4) {
 
   const retrievalQueries = [
     userQuery,
-    `${scoped}course highlights`,
-    `${scoped}job opportunities`,
-    `${scoped}trainer profile`,
-    `${scoped}certification`,
-    `${scoped}syllabus`
+    `${scoped}workspace highlights`,
+    `${scoped}pricing and plans`,
+    `${scoped}facilities and amenities`,
+    `${scoped}location and site visit`,
+    `${scoped}booking process`
   ].filter(Boolean);
 
   const retrievals = await Promise.all(
@@ -484,6 +484,7 @@ Contact: Phone or WhatsApp [number, spoken digit by digit style], email [address
 `;
 
 function buildVoiceSystemPrompt(course) {
+  const workspaceType = course; // the CRM "course" field now holds the lead's workspace interest
   return `
 You are Beta Assistant, the friendly, professional, and persuasive workspace consultant for BetaSpace, Coimbatore, replying to a WhatsApp voice note.
 
@@ -2303,6 +2304,7 @@ async function sendWhatsAppMessage(number, message) {
 
 async function generateFollowUp(userMessages, course, counsellorRemarks = []) {
   if (!course) return null;
+  const workspaceType = course; // the CRM "course" field now holds the lead's workspace interest
 
 const systemPrompt = `
 You are Beta Assistant, a friendly and professional workspace consultant from BetaSpace, Coimbatore.
@@ -2364,6 +2366,7 @@ const DAY4_FOLLOWUP_TOPICS = [
 // specific WhatsApp message grounded in what it actually found (no invented stats/links).
 async function generateDay4FollowUp(userName, course, userMessages, counsellorRemarks = []) {
   if (!course) return null;
+  const workspaceType = course; // the CRM "course" field now holds the lead's workspace interest
 
   const remarksText = counsellorRemarks.length > 0
     ? counsellorRemarks.join("\n")
@@ -2437,7 +2440,7 @@ cron.schedule("0 10 * * *", async () => {
   const inactiveUsers = await Chat.find({
     lastInteracted: { $lt: cutoff },
     followUpCount: { $lt: 3 },
-    pipeline: { $not: /^(Enrolled|Irrelevant|Not Intrested)$/i }
+    pipeline: { $not: /^(Converted|Enrolled|Irrelevant|Not Interested|Not Intrested|On Hold)$/i }
   });
 
   for (const user of inactiveUsers) {
@@ -2529,7 +2532,7 @@ cron.schedule("15 10 * * *", async () => {
     followUpCount: 3,
     day4FollowUpSent: { $ne: true },
     course: { $ne: null },
-    pipeline: { $not: /^(Enrolled|Irrelevant|Not Intrested)$/i }
+    pipeline: { $not: /^(Converted|Enrolled|Irrelevant|Not Interested|Not Intrested|On Hold)$/i }
   });
 
   for (const user of day4Users) {
@@ -4273,7 +4276,7 @@ async function sendDailyReport() {
       { $sort: { username: 1 } }
       ]),
       Chat.aggregate([
-        { $match: { pipeline: "Enrolled" } },
+        { $match: { pipeline: { $in: ["Converted", "Enrolled"] } } },
         {
           $project: {
             firstInstDueDate: { $arrayElemAt: ["$fees.installments.dueDate", 0] },
@@ -4655,7 +4658,7 @@ async function sendPlacementSupportTemplate(to, userName, counsellorNumber) {
 //       { eveningFollowUpCount: { $lt: 3 } },
 //       { eveningFollowUpCount: { $exists: false } }
 //     ],
-//     pipeline: { $not: /^(Enrolled|Irrelevant|Not Intrested)$/i }
+//     pipeline: { $not: /^(Converted|Enrolled|Irrelevant|Not Interested|Not Intrested|On Hold)$/i }
 //   });
 
 //   for (const user of inactiveUsers) {
