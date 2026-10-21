@@ -2243,7 +2243,7 @@ async function sendfixedtemplate2 (to) {
         to,
         type: "template",
         template: {
-          name: "received_form", // default pre-approved template name
+          name: "welcome_msg", // default pre-approved template name
           language: { code: "en" },
           // ✅ Optional: pass dynamic parameters if your template supports them
           components: [
