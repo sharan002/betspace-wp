@@ -641,6 +641,32 @@ function isDuplicateMessage(messageId) {
   return false;
 }
 
+const WORKSPACE_OPTIONS = [
+  "Managed Office",
+  "Coworking Office",
+  "Private Office",
+  "Virtual Office",
+  "Dedicated Desk",
+  "Hot Desk",
+  "Meeting Rooms"
+];
+
+function buildWorkspaceMenuMessage(userName) {
+  return `Hi ${userName}, Thanks for choosing Beta Space Coimbatore! 🏢\nWhich workspace are you looking for? Please reply with the number or name:\n\n` +
+    WORKSPACE_OPTIONS.map((o, i) => `${i + 1}) ${o}`).join("\n");
+}
+
+// If the last bot reply was the workspace menu, map the user's answer
+// ("3", "3)", "private office") to the option name; otherwise return null.
+function matchWorkspaceSelection(userChat, msgBody) {
+  const last = (userChat.conversations || []).slice(-1)[0];
+  if (!last || typeof last.botReply !== "string" || !last.botReply.includes(`1) ${WORKSPACE_OPTIONS[0]}`)) return null;
+  const text = (msgBody || "").trim().toLowerCase().replace(/[).\s]+$/, "");
+  const idx = parseInt(text, 10);
+  if (/^\d+$/.test(text) && idx >= 1 && idx <= WORKSPACE_OPTIONS.length) return WORKSPACE_OPTIONS[idx - 1];
+  return WORKSPACE_OPTIONS.find(o => o.toLowerCase() === text) || null;
+}
+
 // Admin number that owns the manager RAG chatbot (see the "report" and
 // manager-chat branches below) — mirrors CRM-app-be's MANAGER_ADMIN_NUMBER.
 // const MANAGER_ADMIN_NUMBER = "919360549855";
@@ -819,7 +845,23 @@ if (msg?.referral) {
 
       broadcast({ type: "new_user", user: userChat });
 
-      await sendMessage(from, `Hi ${userName}, Thanks for choosing Beta Space  Coimbatore How can we help you today`);
+      const firstReply = buildWorkspaceMenuMessage(userName);
+      await sendMessage(from, firstReply);
+
+      // Persist the first exchange so it shows up in the DB / CRM chat history
+      userChat.conversations.push({ userMsg: msgBody || "(non-text message)", botReply: firstReply });
+      userChat.lastInteracted = new Date();
+      await userChat.save();
+
+      broadcast({
+        type: "new_message",
+        userNumber: from,
+        conversation: {
+          userMsg: msgBody || "(non-text message)",
+          botReply: firstReply,
+          time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        }
+      });
       // await sendInitialTwoButtons(from);
       // await sendCourseSelectionButtons(from);
       return res.sendStatus(200);
@@ -913,6 +955,12 @@ if (
 
     // 💬 AI chat only after course selection + profession if needed
     if (msgBody) {
+      const selectedWorkspace = matchWorkspaceSelection(userChat, msgBody);
+      if (selectedWorkspace) {
+        userChat.course = selectedWorkspace;
+        msgBody = `I'm interested in ${selectedWorkspace}`;
+      }
+
       const history = userChat.conversations.map(conv => ([
         { role: "user", content: conv.userMsg },
         { role: "assistant", content: conv.botReply },
