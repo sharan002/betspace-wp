@@ -17,51 +17,51 @@ const SALES_TRAINING_ENABLED = true;
 // How many of a user's most recent topics to avoid repeating.
 const TOPIC_HISTORY_WINDOW = 30;
 
-// 100 educational-sales topics for course counsellors/admin staff. Picked
-// randomly per user each day, skipping their recent history where possible.
+// 100 co-working sales topics for BetaSpace sales executives/admin staff.
+// Picked randomly per user each day, skipping their recent history where possible.
 const SALES_TRAINING_TOPICS = [
-  "Making a strong first impression on a new lead",
-  "Effective cold-calling scripts for course enquiries",
-  "Qualifying a lead's genuine interest quickly",
+  "Making a strong first impression on a new workspace enquiry",
+  "Effective cold-calling scripts for workspace enquiries",
+  "Qualifying a lead's genuine need for a workspace quickly",
   "Building rapport in the first 60 seconds",
-  "Asking the right discovery questions before pitching",
-  "Identifying a lead's real motivation for joining a course",
-  "Converting Instagram and social media enquiries",
+  "Asking the right discovery questions before pitching a workspace",
+  "Identifying why a lead really wants to leave home or a traditional office",
+  "Converting Instagram and social media enquiries into site visits",
   "Handling walk-in enquiries professionally",
   "Writing a first WhatsApp message that gets a reply",
   "Setting the tone for a trustworthy conversation",
   "Consultative selling versus pushy selling",
-  "Uncovering a lead's career goals before pitching a course",
-  "Matching the right course to the right learner",
+  "Understanding a team's size, growth plans and budget before pitching",
+  "Matching the right workspace (hot desk, dedicated desk, cabin, office) to the right member",
   "Active listening during a sales conversation",
   "Reading buying signals in a lead's messages",
-  "Understanding parent vs student decision-making dynamics",
-  "Selling to working professionals versus fresh students",
+  "Selling to freelancers versus startups versus corporate teams",
+  "Selling to founders who are the sole decision-maker versus teams needing approvals",
   "Identifying the real objection behind 'I'll think about it'",
   "Mapping objections to their root cause",
-  "Building a buyer persona for course enquiries",
-  "Handling the objection 'the course is too expensive'",
-  "Explaining the ROI of a certification course clearly",
-  "Justifying course fees without sounding defensive",
-  "Positioning EMI and installment options confidently",
-  "Comparing course value against free YouTube resources",
-  "Handling 'another institute is cheaper' objections",
-  "Negotiating fees without devaluing the course",
-  "Explaining placement assistance as part of course value",
-  "Addressing 'is this course accredited' concerns",
-  "Framing course cost as a career investment",
-  "Handling 'I don't have time for this course' objection",
-  "Responding to 'I need to ask my parents first'",
-  "Overcoming 'I'm not sure this is right for me'",
+  "Building a buyer persona for workspace enquiries",
+  "Handling the objection 'the price is too high'",
+  "Explaining the real cost of a traditional office versus a co-working seat",
+  "Justifying pricing without sounding defensive",
+  "Positioning monthly, quarterly and annual plans confidently",
+  "Comparing co-working value against working from home or a cafe",
+  "Handling 'another co-working space is cheaper' objections",
+  "Negotiating pricing without devaluing the space",
+  "Explaining amenities (internet, power backup, meeting credits, pantry) as part of the value",
+  "Addressing 'is the location convenient for my team' concerns",
+  "Framing workspace cost as a business investment",
+  "Handling 'I don't need a workspace right now' objection",
+  "Responding to 'I need to check with my partners or team first'",
+  "Overcoming 'I'm not sure co-working is right for my business'",
   "Handling silence from a previously interested lead",
   "Re-engaging a lead who stopped responding",
-  "Addressing skepticism about online reviews or reputation",
-  "Building confidence in career switchers",
-  "Handling 'I already know the basics' objection",
-  "Responding to 'will I actually get a job after this'",
-  "Easing hesitation from first-generation learners",
-  "Creating urgency ethically around batch start dates",
-  "Using limited-seats messaging responsibly",
+  "Addressing concerns about noise, privacy and distractions in shared spaces",
+  "Building confidence in first-time co-working users",
+  "Handling 'we already have an office' objection",
+  "Responding to 'what if we outgrow the space'",
+  "Easing hesitation from early-stage startups about commitment",
+  "Creating urgency ethically around limited desks and cabins",
+  "Using limited-availability messaging responsibly",
   "The assumptive closing technique for warm leads",
   "The alternative-choice closing technique",
   "Closing a sale over a WhatsApp conversation",
@@ -73,53 +73,55 @@ const SALES_TRAINING_TOPICS = [
   "Designing an effective follow-up cadence",
   "Writing a follow-up message that doesn't feel repetitive",
   "Nurturing a cold lead back to interest",
-  "Following up after a missed demo class",
+  "Following up after a site visit",
   "Sending value instead of just reminders in follow-ups",
-  "Using success stories in follow-up conversations",
+  "Using member success stories in follow-up conversations",
   "Handling 'I'll call you back' politely but firmly",
   "Setting clear next steps at the end of every call",
   "Tracking and honoring follow-up promises",
   "Reviving a dead lead after 30 days",
+  "Running a site visit tour that converts",
+  "Booking more site visits from WhatsApp and phone enquiries",
   "Using testimonials to build instant credibility",
-  "Storytelling to make a course pitch memorable",
-  "Positioning trainer expertise in the pitch",
-  "Explaining curriculum value in simple terms",
-  "Sharing placement success stories effectively",
+  "Storytelling to make a workspace pitch memorable",
+  "Showcasing the community and networking benefits",
+  "Explaining plans and inclusions in simple terms",
+  "Selling meeting rooms and conference rooms to existing members and walk-ins",
   "Building long-term trust beyond a single sale",
-  "Ethical selling practices in education",
-  "Being transparent about what a course does not cover",
-  "Using data and outcomes to support claims",
+  "Ethical selling practices in co-working",
+  "Being transparent about what a plan does not include",
+  "Using facts and availability data to support claims",
   "Building personal rapport quickly with strangers",
   "Tonality and enthusiasm without sounding scripted",
   "Mirroring a lead's communication style",
   "WhatsApp etiquette for professional conversations",
   "Using voice notes for a personal touch",
-  "Simplifying technical course details for non-technical leads",
+  "Simplifying plan details for first-time buyers",
   "Staying warm and human across repeated calls",
   "Handling an angry or frustrated lead calmly",
   "Managing multiple stakeholders in one decision",
   "Communicating confidently without over-promising",
   "Reading tone in text-based conversations",
-  "Upselling an existing student to an advanced batch",
-  "Cross-selling a complementary course",
+  "Upselling a hot desk member to a dedicated desk or cabin",
+  "Cross-selling meeting room hours and virtual office services",
   "Asking for referrals at the right moment",
-  "Building a referral program pitch",
-  "Turning a satisfied student into a brand advocate",
-  "Reactivating alumni for new course offerings",
-  "Handling fee refund conversations gracefully",
-  "Explaining certificate value to future employers",
-  "Selling internship opportunities alongside a course",
-  "Retaining a student who wants to drop out",
+  "Building a member referral program pitch",
+  "Turning a satisfied member into a brand advocate",
+  "Reactivating past members and lapsed enquiries",
+  "Handling cancellation and refund conversations gracefully",
+  "Selling virtual offices for GST and business address registration",
+  "Selling day passes as a path to monthly membership",
+  "Retaining a member who wants to leave",
   "Prioritizing hot leads over cold ones",
   "CRM discipline and accurate lead notes",
   "Meeting monthly targets without compromising ethics",
   "Emotional intelligence during high-pressure sales weeks",
   "Bouncing back from a string of rejections",
   "Time management across a large lead list",
-  "Preparing for a demo class that converts",
-  "Converting webinar attendees into enrolled students",
-  "Handling group decisions among friends enrolling together",
-  "Continuous learning to stay sharp as a sales counsellor",
+  "Preparing for a site visit that converts",
+  "Converting event and community-meetup attendees into members",
+  "Handling team decisions where several members enquire together",
+  "Continuous learning to stay sharp as a sales executive",
 ];
 
 function normalizeIndianNumber(input) {
@@ -225,11 +227,11 @@ async function pickTopicForUser(userNumber) {
 // roughly 30% of the script and one quiz question are grounded in that
 // counsellor's actual leads/remarks/missed-follow-ups from today.
 async function buildTrainingContent(topic, personalizedBrief = "") {
-  const systemPrompt = `You are a sales trainer creating a short daily training session for course counsellors at Appin Technology, an education/training institute. Given a topic, produce:
-1. "script": a warm, spoken-style script (120-160 words) explaining the topic and how to apply it when selling courses to students/parents. Written to be read aloud naturally (no bullet points, no markdown).
-2. "questions": exactly 5 short quiz questions (each one sentence) that test understanding of the topic and how a counsellor would apply it in a real sales conversation.
+  const systemPrompt = `You are a sales trainer creating a short daily training session for sales executives at BetaSpace, a co-working space company in Coimbatore offering hot desks, dedicated desks, private cabins, team offices, meeting rooms and virtual offices. Given a topic, produce:
+1. "script": a warm, spoken-style script (120-160 words) explaining the topic and how to apply it when selling workspace memberships to freelancers, startups and teams. Written to be read aloud naturally (no bullet points, no markdown).
+2. "questions": exactly 5 short quiz questions (each one sentence) that test understanding of the topic and how a sales executive would apply it in a real sales conversation.
 ${personalizedBrief ? `
-This counsellor's actual activity today: ${personalizedBrief}
+This sales executive's actual activity today: ${personalizedBrief}
 Use this to personalize roughly 30% of the script — one to two sentences near the end that reference these specifics directly (do not invent details beyond what's given) and give concrete advice on how they can improve, e.g. logging clearer/more actionable remarks, or acting faster on follow-ups so timing isn't missed. Tie it back to today's topic where it fits naturally. Also make exactly one of the 5 quiz questions test this personalized angle (e.g. asking how they'd handle a missed follow-up, or how they'd improve on a remark like the ones given).` : ""}
 Respond ONLY with JSON in this exact shape: {"script": "...", "questions": ["...", "...", "...", "...", "..."]}`;
 
@@ -250,7 +252,7 @@ Respond ONLY with JSON in this exact shape: {"script": "...", "questions": ["...
 }
 
 async function scoreTrainingAnswers(topic, questions) {
-  const systemPrompt = `You are grading a sales counsellor's quiz answers on the topic "${topic}" from a course-sales training session. For each question/answer pair, score 1 if the answer shows reasonable understanding and effort relevant to the question, or 0 if it is blank, irrelevant, or nonsensical. Give one short sentence of feedback per answer.
+  const systemPrompt = `You are grading a sales executive's quiz answers on the topic "${topic}" from a co-working sales training session. For each question/answer pair, score 1 if the answer shows reasonable understanding and effort relevant to the question, or 0 if it is blank, irrelevant, or nonsensical. Give one short sentence of feedback per answer.
 
 Respond ONLY with JSON in this exact shape: {"results": [{"score": 0 or 1, "feedback": "..."}, ...]} with exactly ${questions.length} entries, in the same order as given.`;
 
@@ -400,7 +402,7 @@ const EXCLUDED_NUMBERS = ["918667850844", "917397081629"];
 
 // Admin number that should also receive the daily training, alongside
 // every counsellor.
-const ADMIN_TRAINING_NUMBER = "919597271533";
+const ADMIN_TRAINING_NUMBER = "919025489889";
 
 // Sends today's training to every counsellor (role: "user") with a WhatsApp
 async function sendDailyTrainingToAllUsers() {

@@ -384,7 +384,7 @@ async function notifyCounsellorOfReply(userChat, reason, campaignName) {
       `https://ask4people.in`;
 
     await sendMessage(counsellor.userNumber, notificationPayload);
-    // await sendMessage("919597271533",notificationPayload)
+    // await sendMessage("919025489889",notificationPayload)
   } catch (err) {
     console.error("Error notifying counsellor of reply:", err);
   }
@@ -670,7 +670,7 @@ function matchWorkspaceSelection(userChat, msgBody) {
 // Admin number that owns the manager RAG chatbot (see the "report" and
 // manager-chat branches below) — mirrors CRM-app-be's MANAGER_ADMIN_NUMBER.
 // const MANAGER_ADMIN_NUMBER = "919360549855";
-const MANAGER_ADMIN_NUMBER = "919597271533";
+const MANAGER_ADMIN_NUMBER = "919025489889";
 
 // Lets MANAGER_ADMIN_NUMBER toggle (by texting "change") between the manager
 // RAG chatbot and chatting normally like any other user.
@@ -716,7 +716,7 @@ app.post("/webhook", async (req, res) => {
       }
     }
 
-    if (from === "919597271533" && msgBody.toLowerCase() === "report") {
+    if (from === "919025489889" && msgBody.toLowerCase() === "report") {
       sendDailyReport();
       return res.sendStatus(200);
     }
@@ -1349,9 +1349,9 @@ app.post("/email/demobooking",async(req,res)=>{
       if (assignedUser && assignedUser.userNumber) {
         const msg = `📅 Demo Booked!\n\nName: ${userName}\nEmail: ${email}\nPhone: ${tel125}\nDate: ${appointmentDate}\nTime: ${appointmentTime}\ncourse :${course} `;
         await sendMessage(assignedUser.userNumber, msg);
-        // await sendMessage("919597271533", msg);
+        // await sendMessage("919025489889", msg);
         const adminMsg = `${msg}\nAssigned User: ${assignedUser.userNumber}`;
-       await sendMessage("919597271533", adminMsg);
+       await sendMessage("919025489889", adminMsg);
       }
     }
 
@@ -2796,7 +2796,7 @@ app.post("/login-log", async (req, res) => {
 
     console.log(login_msg);
 
-    await sendMessage("919597271533", login_msg);
+    await sendMessage("919025489889", login_msg);
 
     res.json({ success: true });
 
@@ -2987,7 +2987,7 @@ app.post("/new/batch-assigned", async (req, res) => {
       console.error("Trainer WA notification failed:", trainerResult.reason?.message);
     }
     
-    sendMessage("919597271533",`Hi ${ trainerName || "Trainer"}, a new student has been assigned to your batch.Student:  ${studentName || "Student"}, Batch ID: ${batchId}, Start Date: ${batchDate}, Course: ${course}. Please prepare accordingly!`)
+    sendMessage("919025489889",`Hi ${ trainerName || "Trainer"}, a new student has been assigned to your batch.Student:  ${studentName || "Student"}, Batch ID: ${batchId}, Start Date: ${batchDate}, Course: ${course}. Please prepare accordingly!`)
     return res.json({
       success: true,
       message: "Batch assignment notifications processed",
@@ -3385,7 +3385,7 @@ app.post("/leadmsg/crm", async (req, res) => {
     let success = 0;
     let failed = 0;
     await Sendbulkmessage(couns_number,cleanMessage)
-    await sendMessage("919597271533",cleanMessage) //Mohan Number
+    await sendMessage("919025489889",cleanMessage) //Mohan Number
     for (let i = 0; i < chats.length; i += BATCH_SIZE) {
       const batch = chats.slice(i, i + BATCH_SIZE);
       const sentChatIds = [];
@@ -3913,7 +3913,7 @@ async function counsellorFeesReminder() {
       message += `Please follow up and update payment status in CRM. \n— Beta Space`;
 
       await sendWhatsAppMessage(counsellor.userNumber, message);
-      await sendMessage("919597271533",message)
+      await sendMessage("919025489889",message)
       console.log(`✅ Fee reminder sent to counsellor ${counsellor.username} (${counsellor.userNumber}) for ${leads.length} students`);
     }
   } catch (err) {
@@ -4427,7 +4427,7 @@ async function sendDailyReport() {
       return;
     }
 
-    await sendMessage("919597271533",msg)
+    await sendMessage("919025489889",msg)
 
     console.log("✅ Daily WhatsApp report sent successfully");
   } catch (err) {
@@ -4788,8 +4788,8 @@ async function sendPlacementSupportTemplate(to, userName, counsellorNumber) {
 // WhatsApp number since 12:00 AM IST today, since their 24-hour customer-service
 // window (needed for free-form outbound texts) may have lapsed. Admin's own
 // number is always treated as within-window, so a plain text send is used.
-const ADMIN_ESCALATION_NUMBER = "919597271533";
-// 919597271533
+const ADMIN_ESCALATION_NUMBER = "919025489889";
+// 919025489889
 cron.schedule("0 11 * * *", async () => {
   console.log("🔄 Running counsellor inactivity escalation cronjob...");
   const EXCLUDED_NUMBERS = ["918667850844", "917397081629"];
