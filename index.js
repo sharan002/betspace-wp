@@ -2012,7 +2012,7 @@ app.post("/send-template", async (req, res) => {
         to,
         type: "template",
         template: {
-          name: "welcome_betaspace",     // default pre-approved template
+          name: "welcome_beta",     // default pre-approved template
           language: { code: "en" }
         }
       },
@@ -2051,7 +2051,7 @@ app.post("/send-text", async (req, res) => {
         to,
         type: "template",
         template: {
-          name: "text_msg", // Your template name
+          name: "text_msg2", // Your template name
           language: { code: "en" },
           components: [
             {
@@ -2160,7 +2160,7 @@ async function sendDynamicMessage(to, param1) {
         to,
         type: "template",
         template: {
-          name: "text_msg", // default pre-approved template name
+          name: "text_msg2", // default pre-approved template name
           language: { code: "en" },
           // ✅ Optional: pass dynamic parameters if your template supports them
           components: [
@@ -2243,7 +2243,7 @@ async function sendfixedtemplate2 (to) {
         to,
         type: "template",
         template: {
-          name: "welcome_msg", // default pre-approved template name
+          name: "welcome_beta", // default pre-approved template name
           language: { code: "en" },
           // ✅ Optional: pass dynamic parameters if your template supports them
           components: [
@@ -3601,7 +3601,8 @@ app.post("/notify/addlead", async (req, res) => {
     // 4️⃣ Send message to counsellor
         console.log(user.userNumber, notificationPayload)
       //  sendEnrollmentmsg(user.userNumber,user.userName,user.course)
-        sendRequestConfirmationMsg(user.userNumber,user.userName, assignedUser.userNumber)
+        // sendRequestConfirmationMsg(user.userNumber,user.userName, assignedUser.userNumber)
+        sendfixedtemplate(user.userNumber)
 
     console.log("Lead notified")
 
