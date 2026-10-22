@@ -2201,7 +2201,7 @@ async function sendfixedtemplate (to) {
         to,
         type: "template",
         template: {
-          name: "welcome_betaspace", // default pre-approved template name
+          name: "welcome_beta", // default pre-approved template name
           language: { code: "en" },
           // ✅ Optional: pass dynamic parameters if your template supports them
           components: [
@@ -3590,11 +3590,10 @@ app.post("/notify/addlead", async (req, res) => {
       });
     }
 
-    const assignedUser = await User.findOne({
-      username: user.assignedto
-    });
-
-    console.log("Assigned User:", assignedUser.userNumber);
+    // Lead may not be assigned yet (assignedto undefined), so this is optional
+    const assignedUser = user.assignedto
+      ? await User.findOne({ username: user.assignedto })
+      : null;
 
   const notificationPayload = `Hi ${user.userName} Thanks for interest in Beta Space`;
 
